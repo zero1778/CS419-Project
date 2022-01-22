@@ -1,0 +1,39 @@
+.container {
+    position: relative;
+}
+.container #bg {
+    position: absolute;
+    opacity: 0.4;
+}
+.crop {
+    width: var(--width);
+    height: var(--height);
+    top: var(--top);
+    left: var(--left);
+}
+
+.hide {
+    display: none;
+}
+.error {
+    color: red;
+}
+.status {
+    color: lightgreen;
+}
+.crop_bg {
+    position: absolute;
+    opacity: 0.2;
+}
+.crop_border {
+    /* Tạo viền cho clip-path bên dưới bằng background
+    clip-path trừ border sẽ được set trong js */
+    position: absolute;
+    background-color:gray;
+    clip-path: polygon(-100px -100px, 1600px -100px, 1600px 1600px, -100px 1600px);
+}
+.crop_fg {
+    position: absolute;
+    clip-path: polygon(0px 0px, 1500px 0px, 1500px 1500px, 0px 1500px);
+    opacity: 1.0;
+}
