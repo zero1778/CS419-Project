@@ -5,7 +5,7 @@ import torch, pickle
 
 
 def main():
-    collection_path = "../../data/oxbuild_images/"
+    collection_path = "../data/oxbuild_images/"
     collection_vector_path = "./collection_vector/"
     imgs = sorted(os.listdir(collection_path))
     result = []

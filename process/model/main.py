@@ -1,5 +1,5 @@
 from json.tool import main
-import cv2
+import cv2, os
 from model import Model
 import torch, pickle
 import numpy as np
@@ -11,11 +11,13 @@ def cos_sim_2d(x, y):
 
 def process():
     collection_vector_path = "./collection_vector/model1_vec.pickle"
+    collection_path = "../data/oxbuild_images/"
     with open(collection_vector_path, 'rb') as handle:
         collection_vec = pickle.load(handle)
         
-    img = cv2.imread('./data/oxbuild_images/all_souls_000000.jpg')
+    img = cv2.imread('../data/oxbuild_images/all_souls_000000.jpg')
     model = Model(1)
+
     img = cv2.resize(img, (224, 224))
     img = img.transpose((2, 0, 1))
     img = img.reshape((1, 3, 224, 224))
@@ -24,7 +26,10 @@ def process():
     output = model.predict(img).reshape(-1).reshape(1, -1).detach().numpy()
 
     cosine_similarity = cos_sim_2d(output, collection_vec).reshape(-1)
-    priority_list = cosine_similarity.argsort()[(-1*collection_vec.shape[0]):][::-1]
+    priority_list_idx = cosine_similarity.argsort()[(-1*collection_vec.shape[0]):][::-1]
+
+    imgs = sorted(os.listdir(collection_path))
+    priority_list = [imgs[i] for i in priority_list_idx]
 
     return priority_list
 
