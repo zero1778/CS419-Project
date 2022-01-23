@@ -52,10 +52,19 @@ $("#btn_search").click((event) => {
     // const up
     const uploadData = new FormData();
 
-    let x1 = cropWindow.left-cropWindowBorderThickness;
-    let y1 = cropWindow.top-cropWindowBorderThickness;
-    let x2 = cropWindow.right+cropWindowBorderThickness;
-    let y2 = cropWindow.bottom+cropWindowBorderThickness;
+    let wn=$("#crop_bg").prop('naturalWidth'), 
+        hn=$("#crop_bg").prop('naturalHeight'), 
+        wv=$("#crop_bg").prop('width'), 
+        hv=$("#crop_bg").prop('height')
+    console.log("wn, hn, wv, hv",wn,hn,wv,hv)
+    let x1 = Math.round(cropWindow.left / wv * wn)
+    // let x1 = cropWindow.left-cropWindowBorderThickness;
+    let y1 = Math.round(cropWindow.top / hv * hn)
+    // let y1 = cropWindow.top-cropWindowBorderThickness;
+    let x2 = Math.round(cropWindow.right / wv * wn)
+    // let x2 = cropWindow.right+cropWindowBorderThickness;
+    let y2 = Math.round(cropWindow.bottom / hv * hn)
+    // let y2 = cropWindow.bottom+cropWindowBorderThickness;
     
     uploadData.append("image", searchImage, searchImage.name);
     uploadData.append("x1", x1);
@@ -81,7 +90,7 @@ function dist (x1, y1, x2, y2) {
     return Math.abs(x1-x2) + Math.abs(y1-y2)
 }
 
-// TODO: Set event khi người ta click vào khung ảnh crop
+// Set event khi người ta click vào khung ảnh crop
 // Để có thể kéo thả cái khung
 var isDragging = {
     top : false,
@@ -180,9 +189,6 @@ $("#crop_window").mousemove((e) => {
         updateCropWindowCss()
     }
 })
-
-// TODO: Set event khi người ta nhấn nút submit
-// Gửi ảnh cho Đăng
 
 // Cập nhật lại hình background và foreground của crop_window
 function updateCropImage() {

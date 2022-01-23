@@ -48,11 +48,10 @@ async def search_image(
     ):
     print("hello ", x1, x2, y1, y2)
     data = load_image_into_numpy_array(await image.read())
-    print (os.getcwd())
+    data = data[y1:y2+1, x1:x2+1, :]
     im = Image.fromarray(data)
     im.save("your_file.png")
     topK = process('your_file.png')
-    print('1111111')
 
     print("np: ", data.shape)
     # return "image " + str(data.shape) \

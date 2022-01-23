@@ -12,7 +12,7 @@ def cos_sim_2d(x, y):
 
 def process(img_path):
     collection_vector_path = "process/collection_vector/model1_vec.pickle"
-    collection_path = "process/data/oxbuild_images/"
+    collection_path = "data/oxbuild_images/"
     with open(collection_vector_path, 'rb') as handle:
         collection_vec = pickle.load(handle)
         
