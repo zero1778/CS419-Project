@@ -10,13 +10,13 @@ def cos_sim_2d(x, y):
     norm_y = y / np.linalg.norm(y, axis=1, keepdims=True)
     return np.matmul(norm_x, norm_y.T)
 
-def process(img_path):
+def process(img):
     collection_vector_path = "process/collection_vector/model1_vec.pickle"
     collection_path = "data/oxbuild_images/"
     with open(collection_vector_path, 'rb') as handle:
         collection_vec = pickle.load(handle)
         
-    img = cv2.imread(img_path)
+    # img = cv2.imread(img_path)
     model = Model(1)
 
     img = cv2.resize(img, (224, 224))
