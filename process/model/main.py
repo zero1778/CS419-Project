@@ -1,9 +1,15 @@
+
 from json.tool import main
 import cv2, os
+<<<<<<< HEAD
 from PIL import Image
 from model import Model
 import torch
 import pickle5 as pickle
+=======
+from process.model.model import Model
+import torch, pickle
+>>>>>>> 9445e8db779fa4031c2562bf7bb927a8324f934f
 import numpy as np
 
 def cos_sim_2d(x, y):
@@ -11,12 +17,13 @@ def cos_sim_2d(x, y):
     norm_y = y / np.linalg.norm(y, axis=1, keepdims=True)
     return np.matmul(norm_x, norm_y.T)
 
-def process():
-    collection_vector_path = "./collection_vector/model1_vec.pickle"
-    collection_path = "../data/oxbuild_images/"
+def process(img):
+    collection_vector_path = "process/collection_vector/model1_vec.pickle"
+    collection_path = "data/oxbuild_images/"
     with open(collection_vector_path, 'rb') as handle:
         collection_vec = pickle.load(handle)
         
+<<<<<<< HEAD
     # Opens a image in RGB mode
     # img = Image.open('../data/oxbuild_images/all_souls_000000.jpg')    
     # import pdb; pdb.set_trace()
@@ -24,6 +31,9 @@ def process():
     img_bgr = cv2.merge([b,g,r])
     
     img = cv2.imread('../data/oxbuild_images/all_souls_000000.jpg')
+=======
+    # img = cv2.imread(img_path)
+>>>>>>> 9445e8db779fa4031c2562bf7bb927a8324f934f
     model = Model(1)
 
     img = cv2.resize(img, (224, 224))
