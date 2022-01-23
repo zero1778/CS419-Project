@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File, Body
 from fastapi.middleware.cors import CORSMiddleware
 import time
 from pydantic import BaseModel
+from starlette.staticfiles import StaticFiles
 
 import numpy as np
 from PIL import Image
@@ -28,6 +29,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+app.mount('/data',StaticFiles(directory="data"))
 
 @app.get("/", tags=["root"])
 async def read_root() -> dict:

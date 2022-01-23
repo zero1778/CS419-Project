@@ -3,7 +3,7 @@ from json.tool import main
 import cv2, os
 from process.model.model import Model
 import torch, pickle
-import pickle5 as pickle
+# import pickle5 as pickle
 import numpy as np
 
 def cos_sim_2d(x, y):
