@@ -6,13 +6,17 @@ from pydantic import BaseModel
 import numpy as np
 from PIL import Image
 from io import BytesIO
+import os
+from process.model.main import process
 
 app = FastAPI()
 
 origins = [
+    "file:///D:/dead/ir-proj/src/frontend/index.html",
     "http://127.0.0.1:5500",
     "localhost:5500",    
-    "127.0.0.1:5500"
+    "127.0.0.1:5500",
+    "*"
 ]
 
 
@@ -44,7 +48,14 @@ async def search_image(
     ):
     print("hello ", x1, x2, y1, y2)
     data = load_image_into_numpy_array(await image.read())
+    print (os.getcwd())
+    im = Image.fromarray(data)
+    im.save("your_file.png")
+    topK = process('your_file.png')
+    print('1111111')
+
     print("np: ", data.shape)
-    return "image " + str(data.shape) \
-            + ", coor: (" + str(x1) + ", " + str(y1) \
-            + "), ("  + str(x2) + ", " + str(y2) + ")" 
+    # return "image " + str(data.shape) \
+    #         + ", coor: (" + str(x1) + ", " + str(y1) \
+    #         + "), ("  + str(x2) + ", " + str(y2) + ")" 
+    return topK
