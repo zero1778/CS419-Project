@@ -48,6 +48,16 @@ $("#btn_open").click((event) => {
     $("#file_input").trigger('click')
 })
 
+async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+        method: "POST",
+        // headers: { "Content-Type": "application/json" },
+        body: data
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+}
+
 $("#btn_search").click((event) => {
     // const up
     const uploadData = new FormData();
@@ -74,14 +84,27 @@ $("#btn_search").click((event) => {
 
     console.log("coor", x1, y1, x2, y2);
 
-    fetch("http://localhost:8000/search", {
-        method: "POST",
-        // headers: { "Content-Type": "application/json" },
-        body: uploadData
-    })
-    .then(res => console.log(res.json()))
-    .catch(error => console.log(error))
+    // fetch("http://localhost:8000/search", {
+    //     method: "POST",
+    //     // headers: { "Content-Type": "application/json" },
+    //     body: uploadData
+    // })
+    // response.json().then(res => {
+    //     console.log(res)
+    // })
+    // .catch(error => console.log(error))
+
+    postData("http://localhost:8000/search", uploadData)
+        .then(data => displaySearchResult(data))
+        .catch(error => console.log("postData error:",error))
 })
+
+function displaySearchResult (data) {
+    // Only UTFString are allowed in sessionStorage
+    sessionStorage.setItem('feir_result_data', JSON.stringify(data))
+    // Refirect
+    location.href = 'result.html'
+}
 
 // Các hàm tiện ích về khoảng cách
 // Nếu khoảng cách trong tầm này, thì xác định là click dính

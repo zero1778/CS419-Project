@@ -45,3 +45,38 @@
     max-width: 100%;
     max-height: 100%;
 }
+
+/* 
+Tính chất của từng ảnh và văn bản hiện trong gallery
+*/
+.gallery {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    align-content: center;
+    gap: 10px 20px;
+}
+.gallery .element {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: stretch;
+    max-width: 23vw;
+}
+.gallery .element img:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 10px lightgray;
+}
+.gallery .element a {
+    /* Taken from Google Image's css */
+    color: #5f6368;
+    text-overflow: ellipsis;
+    font-family: Roboto,Arial,sans-serif;
+    cursor: pointer;
+    flex-grow: 1;
+    max-width: 20vw;
+    overflow: hidden;
+}
