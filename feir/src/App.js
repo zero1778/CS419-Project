@@ -18,16 +18,25 @@ function App() {
       case 'SET_IN_DROP_ZONE':
         return { ...state, inDropZone: action.inDropZone };
       case 'ADD_FILE_TO_LIST':
-        return { ...state, fileList: (action.files)};
+        state.fileList = [];
+        state.displayList = [];
+        state.fileName = ''
+        return { ...state, fileList: (action.files), originName: action.files[0].name, displayList: [URL.createObjectURL(action.files[0])]};
       case 'ADD_RES_TO_LIST':
+        state.resData = [];
         return { ...state, resData: (action.resData)};
+      case 'ADD_CROP_TO_LIST':
+        state.fileList = [];
+        return { ...state, fileList: [action.cropFile], displayList: [action.cropFile]};
+      case 'CLEAR':
+        return { dropDepth: 0, inDropZone: false, originName: '', fileList: [], resData: [], displayList: []};
       default:
         return state;
     }
   };
 
   const [data, dispatch] = React.useReducer(
-    reducer, { dropDepth: 0, inDropZone: false, fileList: [], resData: []}
+    reducer, { dropDepth: 0, inDropZone: false, originName: '', fileList: [], resData: [], displayList: []}
   )
 
   
@@ -38,8 +47,6 @@ function App() {
 
   }, [data.resData]);
 
-  
-  
   return (
     <div className="App">
         <Routes>

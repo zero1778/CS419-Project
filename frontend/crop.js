@@ -70,7 +70,7 @@ $("#btn_search").click((event) => {
     uploadData.append("x1", x1);
     uploadData.append("x2", x2);
     uploadData.append("y1", y1);
-    uploadData.append("y2", y2);
+    uploadData.append("y2", y2) ;
 
     console.log("coor", x1, y1, x2, y2);
 
