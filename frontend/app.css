@@ -67,7 +67,6 @@ Tính chất của từng ảnh và văn bản hiện trong gallery
     max-width: 23vw;
 }
 .gallery .element img:hover {
-    cursor: pointer;
     box-shadow: 0 0 0 10px lightgray;
 }
 .gallery .element a {
@@ -77,6 +76,5 @@ Tính chất của từng ảnh và văn bản hiện trong gallery
     font-family: Roboto,Arial,sans-serif;
     cursor: pointer;
     flex-grow: 1;
-    max-width: 20vw;
     overflow: hidden;
 }
