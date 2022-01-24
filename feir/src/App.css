@@ -79,3 +79,6 @@ h1 {
 .AppName h1 {
   color: #FFF;
 }
+#input[type="file"] {
+  display: none;
+}

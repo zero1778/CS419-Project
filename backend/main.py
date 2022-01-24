@@ -15,7 +15,8 @@ app = FastAPI()
 origins = [
     "file:///D:/dead/ir-proj/src/frontend/index.html",
     "http://127.0.0.1:5500",
-    "localhost:5500",    
+    "localhost:5500",
+    "http://localhost:3000",
     "127.0.0.1:5500",
     "*"
 ]
