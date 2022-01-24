@@ -73,13 +73,22 @@ h1 {
   font-weight: bold;
 }
 .AppName {
+  border-radius: 0.5rem;
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
 }
 .AppName h1 {
-  color: #FFF;
+  padding: 0.5rem;
+  text-align: center;
+  background: cornsilk;
+  border-radius: 1rem;
+  color: #07F;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 #input[type="file"] {
   display: none;
