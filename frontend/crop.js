@@ -71,7 +71,6 @@ async function postData(url = '', data = {}) {
 
 $("#btn_search").click((event) => {
     if (currentSelectedFileCursor) {
-
         displayStatusMessage("Searching... please wait warmly...")
 
         // const up
@@ -121,6 +120,7 @@ $("#btn_search").click((event) => {
 function displaySearchResult (data) {
     // Only UTFString are allowed in sessionStorage
     sessionStorage.setItem('feir_result_data', JSON.stringify(data))
+    sessionStorage.setItem('feir_query_image', JSON.stringify(currentSelectedFileContent))
     // Refirect
     location.href = 'result.html'
 }
