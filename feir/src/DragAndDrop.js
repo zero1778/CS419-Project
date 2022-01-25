@@ -128,7 +128,8 @@ const DragAndDrop = props => {
    }
 
    const handleClear = (e) => {
-      dispatch({ type: 'CLEAR'});  
+      dispatch({ type: 'CLEAR'});
+      setDefaultMsg("Drag files here to upload")  
    }
 
     return (
