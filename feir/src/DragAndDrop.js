@@ -55,7 +55,7 @@ const DragAndDrop = props => {
 
     useEffect(() => {
        if (data?.originName.length > 0) 
-         setDefaultMsg(data.originName + ' (Drag files here to replace)')
+         setDefaultMsg('(Drag new files here to replace)')
     }, [data?.originName]);
     
     
@@ -144,8 +144,8 @@ const DragAndDrop = props => {
                      onDragLeave={e => handleDragLeave(e)}
                   >
                      {  
-                        (data?.displayList?.length > 0) ? <div style={{marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
-                           <img src={data.displayList[0]} width="70%" height="70%" /> 
+                        (data?.displayList?.length > 0) ? <div style={{maxHeight: 400, maxWidth: 360, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
+                           <img src={data.displayList[0]} width="80%" height="80%" style={{maxHeight: 400, maxWidth: 360, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}} /> 
                         </div>: <></>
                      }
                      <p>{defaultMsg}</p>
@@ -169,27 +169,26 @@ const DragAndDrop = props => {
                   <div className='crop-zone'>
                      <div className='container'>
                         <div className='row'>
-                           {  
-                           (data?.displayList?.length > 0) ? 
-                           <>
-                           <div className="col-6" width="100%" height="100%" style={{marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
-                              <Cropper
-                                 src={data.displayList[0]}
-                                 style={{ height: "80%", width: "80%", marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}
-                                 // Cropper.js options
-                                 initialAspectRatio={1/1}
-                                 guides={false}
-                                 crop={onCrop}
-                                 ref={cropperRef}
-                              />
-                           </div>
-                           <div className="col-6" width="100%" height="100%" style={{marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
-                              <img src={src} style={{ height: "60%", width: "60%", marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}/>
-                           </div>
-                           </>
-                           : <></>
-                           }
-                           
+                              {  
+                                 (data?.displayList?.length > 0) ? 
+                                 <>
+                                 <div className="col-6" style={{maxHeight: 400, maxWidth: 350}}>
+                                    <Cropper
+                                       src={data.displayList[0]}
+                                       style={{ height: "100%", width: "100%", maxHeight: 400, maxWidth: 350}}
+                                       // Cropper.js options
+                                       initialAspectRatio={1/1}
+                                       guides={false}
+                                       crop={onCrop}
+                                       ref={cropperRef}
+                                    />
+                                 </div>
+                                 <div className="col-6" style={{maxHeight: 400, maxWidth: 350, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
+                                    <img src={src} style={{ height: "50%", width: "50%", maxHeight: 400, maxWidth: 350}}/>
+                                 </div>
+                                 </>
+                                 : <></>
+                              }
                         </div>    
                      </div>
                   </div>
