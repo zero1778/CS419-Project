@@ -135,8 +135,8 @@ const DragAndDrop = props => {
     return (
         <>
         <div className='container'>
-           <div className='row'>
-               <div className='col-4'>
+           <div className='row justify-content-center'>
+               <div className='col-auto'>
                   <div className={data.inDropZone ? 'drag-drop-zone inside-drag-area' : 'drag-drop-zone'}
                      onDrop={e => handleDrop(e)}
                      onDragOver={e => handleDragOver(e)}
@@ -165,17 +165,17 @@ const DragAndDrop = props => {
                      Search
                   </Button>
                </div>
-               <div className='col-8'>
+               <div className='col-auto'>
                   <div className='crop-zone'>
                      <div className='container'>
-                        <div className='row'>
+                        <div className='row justify-content-center'>
                               {  
                                  (data?.displayList?.length > 0) ? 
                                  <>
-                                 <div className="col-6" style={{maxHeight: 400, maxWidth: 350}}>
+                                 <div className="col-6" style={{maxHeight: 400, maxWidth: 360}}>
                                     <Cropper
                                        src={data.displayList[0]}
-                                       style={{ height: "100%", width: "100%", maxHeight: 400, maxWidth: 350}}
+                                       style={{ height: "100%", width: "100%", maxHeight: 400, maxWidth: 360}}
                                        // Cropper.js options
                                        initialAspectRatio={1/1}
                                        guides={false}
@@ -184,7 +184,7 @@ const DragAndDrop = props => {
                                     />
                                  </div>
                                  <div className="col-6" style={{maxHeight: 400, maxWidth: 350, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
-                                    <img src={src} style={{ height: "50%", width: "50%", maxHeight: 400, maxWidth: 350}}/>
+                                    <img src={src} style={{ height: "80%", width: "80%", maxHeight: 400, maxWidth: 350}}/>
                                  </div>
                                  </>
                                  : <></>
