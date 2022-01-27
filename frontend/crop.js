@@ -24,6 +24,17 @@ var cropWindow = {
 var searchImage;
 const cropWindowBorderThickness = 5;
 
+function displayErrorMessage (msg) {
+    $("#status_msg").text(msg)
+    $("#status_msg").removeClass("status")
+    $("#status_msg").addClass("error")
+}
+
+function displayStatusMessage (msg) {
+    $("#status_msg").text(msg)
+    $("#status_msg").removeClass("error")
+    $("#status_msg").addClass("status")
+}
 
 // Set event khi nút chọn File được click vào
 $("#file_input").change((event) => {
@@ -40,7 +51,7 @@ $("#file_input").change((event) => {
             updateCropImage()
         }
         reader.onerror = function() {
-            alert('Error reading ' + file.name)
+            displayErrorMessage("Error reading "+file.name)
         }
     }
 })
@@ -48,40 +59,71 @@ $("#btn_open").click((event) => {
     $("#file_input").trigger('click')
 })
 
-$("#btn_search").click((event) => {
-    // const up
-    const uploadData = new FormData();
+async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+        method: "POST",
+        // headers: { "Content-Type": "application/json" },
+        body: data
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+}
 
-    let wn=$("#crop_bg").prop('naturalWidth'), 
+$("#btn_search").click((event) => {
+    if (currentSelectedFileCursor) {
+        displayStatusMessage("Searching... please wait warmly...")
+
+        // const up
+        const uploadData = new FormData();
+        
+        let wn=$("#crop_bg").prop('naturalWidth'), 
         hn=$("#crop_bg").prop('naturalHeight'), 
         wv=$("#crop_bg").prop('width'), 
         hv=$("#crop_bg").prop('height')
-    console.log("wn, hn, wv, hv",wn,hn,wv,hv)
-    let x1 = Math.round(cropWindow.left / wv * wn)
-    // let x1 = cropWindow.left-cropWindowBorderThickness;
-    let y1 = Math.round(cropWindow.top / hv * hn)
-    // let y1 = cropWindow.top-cropWindowBorderThickness;
-    let x2 = Math.round(cropWindow.right / wv * wn)
-    // let x2 = cropWindow.right+cropWindowBorderThickness;
-    let y2 = Math.round(cropWindow.bottom / hv * hn)
-    // let y2 = cropWindow.bottom+cropWindowBorderThickness;
-    
-    uploadData.append("image", searchImage, searchImage.name);
-    uploadData.append("x1", x1);
-    uploadData.append("x2", x2);
-    uploadData.append("y1", y1);
-    uploadData.append("y2", y2);
-
-    console.log("coor", x1, y1, x2, y2);
-
-    fetch("http://localhost:8000/search", {
-        method: "POST",
-        // headers: { "Content-Type": "application/json" },
-        body: uploadData
-    })
-    .then(res => console.log(res.json()))
-    .catch(error => console.log(error))
+        console.log("wn, hn, wv, hv",wn,hn,wv,hv)
+        let x1 = Math.round(cropWindow.left / wv * wn)
+        // let x1 = cropWindow.left-cropWindowBorderThickness;
+        let y1 = Math.round(cropWindow.top / hv * hn)
+        // let y1 = cropWindow.top-cropWindowBorderThickness;
+        let x2 = Math.round(cropWindow.right / wv * wn)
+        // let x2 = cropWindow.right+cropWindowBorderThickness;
+        let y2 = Math.round(cropWindow.bottom / hv * hn)
+        // let y2 = cropWindow.bottom+cropWindowBorderThickness;
+        
+        uploadData.append("image", searchImage, searchImage.name);
+        uploadData.append("x1", x1);
+        uploadData.append("x2", x2);
+        uploadData.append("y1", y1);
+        uploadData.append("y2", y2);
+        
+        console.log("coor", x1, y1, x2, y2);
+        
+        // fetch("http://localhost:8000/search", {
+        //     method: "POST",
+        //     // headers: { "Content-Type": "application/json" },
+        //     body: uploadData
+        // })
+        // response.json().then(res => {
+        //     console.log(res)
+        // })
+        // .catch(error => console.log(error))
+                
+        postData("http://localhost:8000/search", uploadData)
+        .then(data => displaySearchResult(data))
+        .catch(error => console.log("postData error:",error))
+    }
+    else {
+        displayErrorMessage("No image to search yet. Please open one.")
+    }
 })
+
+function displaySearchResult (data) {
+    // Only UTFString are allowed in sessionStorage
+    sessionStorage.setItem('feir_result_data', JSON.stringify(data))
+    sessionStorage.setItem('feir_query_image', JSON.stringify(currentSelectedFileContent))
+    // Refirect
+    location.href = 'result.html'
+}
 
 // Các hàm tiện ích về khoảng cách
 // Nếu khoảng cách trong tầm này, thì xác định là click dính
@@ -204,6 +246,7 @@ function updateCropImage() {
                 cropImageWorking = false
                 $("#crop_fg").addClass("hide")
             }
+            displayStatusMessage("Load complete. Please drag border of image to crop as you please then press Submit.")
         })
     $("#crop_fg").attr('src', currentSelectedFileContent)
 }

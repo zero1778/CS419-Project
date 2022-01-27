@@ -29,7 +29,7 @@ function App() {
   return (
     <div className="App">
         {/* <p>"Don't come here and start asking to crop, but crop your mind before coming here" - The author</p> */}
-        <img src={'D:/FEIR/feir/public/gallery/cat1.jpg'} alt='img 1' width="400" height="400" />
+        <img src={'http://localhost:8000/data/ashmolean_000257.jpg'} alt='img 1' width="400" height="400" />
         {/* {console.log(process.env)} */}
         <Routes>
           <Route exact path="/" element={<>
