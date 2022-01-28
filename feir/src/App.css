@@ -51,10 +51,12 @@ h1 {
   background: cornsilk;
   border-radius: 0.5rem;
   box-shadow: 5px 5px 10px #C0C0C0;
-  width: 500px;
+  width: 450px;
   height: 500px;
   margin-left: auto;
   margin-right: auto;
+  align-self: center;
+  align-content: center;
   border: 3px solid #07F;
 }
 .drag-drop-zone p {
@@ -71,11 +73,36 @@ h1 {
   font-weight: bold;
 }
 .AppName {
+  border-radius: 0.5rem;
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
 }
 .AppName h1 {
-  color: #FFF;
+  padding: 0.5rem;
+  text-align: center;
+  background: cornsilk;
+  border-radius: 1rem;
+  color: #07F;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+#input[type="file"] {
+  display: none;
+}
+.crop-zone {
+  padding: 2rem;
+  text-align: center;
+  /* background: #07F; */
+  background: cornsilk;
+  border-radius: 0.5rem;
+  box-shadow: 5px 5px 10px #C0C0C0;
+  width: 720px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 3px solid #07F;
 }

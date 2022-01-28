@@ -15,7 +15,8 @@ app = FastAPI()
 origins = [
     "file:///D:/dead/ir-proj/src/frontend/index.html",
     "http://127.0.0.1:5500",
-    "localhost:5500",    
+    "localhost:5500",
+    "http://localhost:3000",
     "127.0.0.1:5500",
     "*"
 ]
@@ -50,7 +51,8 @@ async def search_image(
     ):
     print("hello ", x1, x2, y1, y2)
     data = load_image_into_numpy_array(await image.read())
-    data = data[y1:y2+1, x1:x2+1, :]
+    if not(x1==0 and x2==0 and y1==0 and y2==0):
+        data = data[y1:y2+1, x1:x2+1, :]
     topK = process(data)
 
     print("np: ", data.shape)
