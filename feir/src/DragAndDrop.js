@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Button } from 'reactstrap';
 import axios from 'axios';
 import Cropper from "react-cropper";
@@ -7,9 +7,9 @@ import "cropperjs/dist/cropper.css";
 const DragAndDrop = props => {
 
     const { data, dispatch } = props;
-
-    const [defaultMsg, setDefaultMsg] = useState("Drag files here to upload");
-
+    let myScreenW = window.screen.width
+    let myScreenH = myScreenW*3/4
+    
 
     const handleDragEnter = e => {
        e.preventDefault();
@@ -52,13 +52,8 @@ const DragAndDrop = props => {
       
       }
     };
+    
 
-    useEffect(() => {
-       if (data?.originName.length > 0) 
-         setDefaultMsg('(Drag new files here to replace)')
-    }, [data?.originName]);
-    
-    
     const handleResponse = (resData) => {
       dispatch({ type: 'ADD_RES_TO_LIST', resData });
     }
@@ -98,23 +93,25 @@ const DragAndDrop = props => {
       if (e.target.files.length === 0) return
       var files = e.target.files
       dispatch({ type: 'ADD_FILE_TO_LIST', files});
-
-      //setDefaultMsg(files[0].name + '\n (Drag files here to replace)')
    }
 
 
   const cropperRef = useRef(null);
-  const [src, setSrc] = useState(null)
-  const [cropFile, setCropFile] = useState(null)
-  const onCrop = () => {
-    const imageElement = cropperRef?.current;
-    const cropper = imageElement?.cropper;
-    var newImageFile = cropper.getCroppedCanvas().toDataURL();
-    setCropFile(newImageFile)
-    setSrc(newImageFile);
-  };
+//   const [src, setSrc] = useState(null)
+//   const [cropFile, setCropFile] = useState(null)
+//   const onCrop = () => {
+//     const imageElement = cropperRef?.current;
+//     const cropper = imageElement?.cropper;
+//     var newImageFile = cropper.getCroppedCanvas().toDataURL();
+//     setCropFile(newImageFile)
+//     setSrc(newImageFile);
+//   };
 
   const handleCropClick = e => {
+      //dispatch({ type: 'ADD_CROP_TO_LIST', cropFile});
+      const imageElement = cropperRef?.current;
+      const cropper = imageElement?.cropper;
+      var cropFile = cropper.getCroppedCanvas().toDataURL();
       dispatch({ type: 'ADD_CROP_TO_LIST', cropFile});
   }
 
@@ -128,13 +125,13 @@ const DragAndDrop = props => {
    }
 
    const handleClear = (e) => {
-      dispatch({ type: 'CLEAR'});
-      setDefaultMsg("Drag files here to upload")  
+      // dispatch({ type: 'CLEAR'});
+      window.location.href='/'
    }
 
     return (
         <>
-        <div className='container'>
+        <div className='container' style={{width: '100%', maxWidth: 'none'}}>
            <div className='row justify-content-center'>
                <div className='col-auto'>
                   <div className={data.inDropZone ? 'drag-drop-zone inside-drag-area' : 'drag-drop-zone'}
@@ -142,13 +139,14 @@ const DragAndDrop = props => {
                      onDragOver={e => handleDragOver(e)}
                      onDragEnter={e => handleDragEnter(e)}
                      onDragLeave={e => handleDragLeave(e)}
+                     accept="image/*"
                   >
                      {  
                         (data?.displayList?.length > 0) ? <div style={{maxHeight: 400, maxWidth: 360, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
                            <img src={data.displayList[0]} width="80%" height="80%" style={{maxHeight: 400, maxWidth: 360, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}} /> 
                         </div>: <></>
                      }
-                     <p>{defaultMsg}</p>
+                     <p>(Drag files here to upload or replace)</p>
                   </div>
 
                   <input type="file" id="input" name='image-upload' accept="image/*" onChange={e => handleChooseFile(e)} />
@@ -159,42 +157,39 @@ const DragAndDrop = props => {
                            </p>
                      </label>
                   </div>
-                  <Button color="primary"
+                  <Button color="primary" className='mb-3'
                      onClick={e => handleSubmit(e)}
                   >
                      Search
                   </Button>
                </div>
-               <div className='col-auto'>
-                  <div className='crop-zone'>
-                     <div className='container'>
-                        <div className='row justify-content-center'>
-                              {  
-                                 (data?.displayList?.length > 0) ? 
-                                 <>
-                                 <div className="col-6" style={{maxHeight: 400, maxWidth: 360}}>
-                                    <Cropper
-                                       src={data.displayList[0]}
-                                       style={{ height: "100%", width: "100%", maxHeight: 400, maxWidth: 360}}
-                                       // Cropper.js options
-                                       initialAspectRatio={1/1}
-                                       guides={false}
-                                       crop={onCrop}
-                                       ref={cropperRef}
-                                    />
-                                 </div>
-                                 <div className="col-6" style={{maxHeight: 400, maxWidth: 350, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
-                                    <img src={src} style={{ height: "80%", width: "80%", maxHeight: 400, maxWidth: 350}}/>
-                                 </div>
-                                 </>
-                                 : <></>
-                              }
-                        </div>    
-                     </div>
+               {/* <div className='col-auto'>
+               </div> */}
+            <div className='row justify-content-center'>
+                  <div className='crop-zone' style={{height: "100%", width: "100%", maxHeight: myScreenH, maxWidth: myScreenW, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
+                     {  
+                        (data?.displayList?.length > 0) ? 
+                        <>
+                           <Cropper
+                              src={data.displayList[0]}
+                              style={{ height: "100%", width: "100%", maxHeight: myScreenH, maxWidth: myScreenW, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto' }}
+                              // Cropper.js options
+                              initialAspectRatio={1/1}
+                              guides={true}
+                              // crop={onCrop}
+                              ref={cropperRef}
+                           />
+                        {/* <div className="col-6" style={{maxHeight: 400, maxWidth: 350, marginTop: 'auto', marginBottom:'auto', marginLeft:'auto', marginRight:'auto'}}>
+                           <img src={src} style={{ height: "80%", width: "80%", maxHeight: 400, maxWidth: 350}}/>
+                        </div> */}
+                        </>
+                        : <></>
+                     }
                   </div>
-                    <Button color="primary" className='mt-3'onClick={e => handleCropClick(e)}>Crop</Button>
                     <div>
-                    <Button color="primary" className='mt-3'onClick={e => handleClear(e)}>Clear</Button>
+                    <Button color="primary" className='m-3'onClick={e => handleCropClick(e)}>Crop</Button>
+
+                    <Button color="primary" className='m-3'onClick={e => handleClear(e)}>Clear and Reset</Button>
                     </div>
                </div>      
            </div>
