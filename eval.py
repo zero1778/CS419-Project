@@ -26,7 +26,7 @@ for q in tqdm(queries):
             img_name = line[0][5:]
             img_name = img_name + '.jpg'
     img = cv2.imread(img_path + img_name)
-    topK = process(img, 50)
+    topK = process(img, 2000)
     # import pdb; pdb.set_trace()
     resultPath = rPath + q + "_top.txt"
     with open(resultPath, 'w') as f:
