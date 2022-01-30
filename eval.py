@@ -3,7 +3,7 @@ from process.model.main import process
 import pandas as pd
 from tqdm import tqdm
 
-cmd = "./evaluation/compute_ap.exe "
+cmd = "./evaluation/compute_ap "
 # cmd = ".\evaluation\compute_ap.exe "
 
 #TODO: ảnh dùng query để trong folder này, chung parent vs data train
@@ -26,7 +26,7 @@ for q in tqdm(queries):
             img_name = line[0][5:]
             img_name = img_name + '.jpg'
     img = cv2.imread(img_path + img_name)
-    topK = process(img, 50)
+    topK = process(img, 2000)
     # import pdb; pdb.set_trace()
     resultPath = rPath + q + "_top.txt"
     with open(resultPath, 'w') as f:
