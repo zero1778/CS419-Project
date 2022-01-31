@@ -3,8 +3,8 @@ from process.model.main import process
 import pandas as pd
 from tqdm import tqdm
 
-# cmd = "./evaluation/compute_ap.exe "
-cmd = ".\evaluation\compute_ap.exe "
+cmd = "./evaluation/compute_ap.exe "
+# cmd = ".\evaluation\compute_ap.exe "
 
 #TODO: ảnh dùng query để trong folder này, chung parent vs data train
 path = "./data/gt_files_170407/"

@@ -3,4 +3,4 @@ torchvision
 opencv-python
 tqdm
 npm
-
+pandas
