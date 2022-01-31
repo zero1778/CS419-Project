@@ -53,7 +53,7 @@ async def search_image(
     data = load_image_into_numpy_array(await image.read())
     if not(x1==0 and x2==0 and y1==0 and y2==0):
         data = data[y1:y2+1, x1:x2+1, :]
-    topK = process(data)
+    topK = process(data, type_model=2)
 
     print("np: ", data.shape)
     # return "image " + str(data.shape) \

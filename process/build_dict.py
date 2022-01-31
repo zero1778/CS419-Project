@@ -5,11 +5,11 @@ import torch, pickle
 
 
 def main():
-    collection_path = "./data/oxbuild_images/"
+    collection_path = "./data/oxbuild_images_crop/"
     collection_vector_path = "./process/collection_vector/"
     imgs = sorted(os.listdir(collection_path))
-
-    image_collection = [imgs[x:x+900] for x in range(0, len(imgs), 900)]
+    print(imgs[:10])
+    image_collection = [imgs[:]]
     
     model = Model(1)    
 
@@ -29,7 +29,7 @@ def main():
 
         result = torch.stack(result).detach().numpy()
     
-        with open(collection_vector_path + 'model1_vec_' + str(i) + '.pickle', 'wb') as handle:
+        with open(collection_vector_path + 'model2_vec.pickle', 'wb') as handle:
             pickle.dump(result, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
         i+=1
