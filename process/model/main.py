@@ -60,7 +60,7 @@ def process(img, type_model=1, topK=20):
     if (img.shape[-1] > 3):
         img = img[:, :, :3]
     elif (img.shape[2] == None):
-        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
     img = cv2.resize(img, (224, 224))
     img = img.transpose((2, 0, 1))

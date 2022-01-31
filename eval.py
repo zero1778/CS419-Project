@@ -30,7 +30,6 @@ for idx, q in tqdm(enumerate(queries)):
             line = line.split(' ')
             img_name = line[0][5:]
             img_name = numbering(idx + 1) + "_" + img_name + '.jpg'
-    # import pdb; pdb.set_trace()
     img = cv2.imread(img_path + img_name)
     topK = process(img, type_model=2, topK=2000)
     

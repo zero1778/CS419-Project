@@ -9,6 +9,7 @@ from PIL import Image
 from io import BytesIO
 import os
 from process.model.main import process
+import cv2
 
 app = FastAPI()
 
@@ -38,7 +39,7 @@ async def read_root() -> dict:
 
 
 def load_image_into_numpy_array(data):
-    return np.array(Image.open(BytesIO(data)))
+    return np.array(Image.open(BytesIO(data)).convert('RGB'))
 
 
 @app.post("/search", tags=["search"])
@@ -51,11 +52,12 @@ async def search_image(
     ):
     print("hello ", x1, x2, y1, y2)
     data = load_image_into_numpy_array(await image.read())
+    # Convert to cv2 bgr format
+    data = cv2.cvtColor(data, cv2.COLOR_RGB2BGR)
     if not(x1==0 and x2==0 and y1==0 and y2==0):
         data = data[y1:y2+1, x1:x2+1, :]
     topK = process(data, type_model=2)
 
-    print("np: ", data.shape)
     # return "image " + str(data.shape) \
     #         + ", coor: (" + str(x1) + ", " + str(y1) \
     #         + "), ("  + str(x2) + ", " + str(y2) + ")" 
