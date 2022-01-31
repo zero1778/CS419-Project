@@ -7,7 +7,7 @@
 using namespace std;
 
 vector<string>
-load_list(const string& fname, bool addJPG = true)
+load_list(const string& fname, bool addJPG = false)
 {
   vector<string> ret;
   ifstream fobj(fname.c_str());
@@ -63,7 +63,7 @@ main(int argc, char** argv)
 
   string gtq = argv[1];
 
-  vector<string> ranked_list = load_list(argv[2], false);
+  vector<string> ranked_list = load_list(argv[2]);
   set<string> good_set = vector_to_set( load_list(gtq + "_good.txt") );
   set<string> ok_set = vector_to_set( load_list(gtq + "_ok.txt") );
   set<string> junk_set = vector_to_set( load_list(gtq + "_junk.txt") );
