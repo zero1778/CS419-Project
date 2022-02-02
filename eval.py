@@ -24,7 +24,6 @@ for q in queries:
             img_name = img_name + '.jpg'
     img = cv2.imread(img_path + img_name)
     topK = process(img)
-    # import pdb; pdb.set_trace()
     resultPath = rPath + q + "_top.txt"
     with open(resultPath, 'w') as f:
         f.write("\n".join(topK))
