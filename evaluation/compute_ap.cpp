@@ -76,7 +76,7 @@ main(int argc, char** argv)
   
   // cout << ap << "\n";
   ofstream fout;
-  fout.open("evaluation/result/AP.txt", fstream::app);
+  fout.open("./evaluation/result/AP.txt", fstream::app);
   fout << gtq << " " << ap << endl;
   fout.close();
 

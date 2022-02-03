@@ -1,5 +1,6 @@
 import os, cv2
 from model.model import Model
+from model.utils import norm_mean_std
 from tqdm import tqdm
 import torch, pickle
 from model.utils import norm_mean_std
