@@ -7,14 +7,18 @@
 using namespace std;
 
 vector<string>
-load_list(const string& fname)
+load_list(const string& fname, bool addJPG = false)
 {
   vector<string> ret;
   ifstream fobj(fname.c_str());
   if (!fobj.good()) { cerr << "File " << fname << " not found!\n"; exit(-1); }
   string line;
+  int i =0;
   while (getline(fobj, line)) {
-    ret.push_back(line);
+    if(addJPG)
+      ret.push_back(line+".jpg");
+    else 
+      ret.push_back(line);
   }
   return ret;
 }
@@ -70,9 +74,9 @@ main(int argc, char** argv)
 
   float ap = compute_ap(pos_set, junk_set, ranked_list);
   
-  cout << ap << "\n";
+  // cout << ap << "\n";
   ofstream fout;
-  fout.open("evaluation/result/AP.txt", fstream::app);
+  fout.open("./evaluation/result/AP.txt", fstream::app);
   fout << gtq << " " << ap << endl;
   fout.close();
 

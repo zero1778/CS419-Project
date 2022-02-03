@@ -1,6 +1,0 @@
-torch
-torchvision
-opencv-python
-tqdm
-npm
-
