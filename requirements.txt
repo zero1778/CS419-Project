@@ -4,3 +4,4 @@ opencv-python
 tqdm
 npm
 pandas
+efficientnet_pytorch

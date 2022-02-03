@@ -31,7 +31,7 @@ for idx, q in tqdm(enumerate(queries)):
             img_name = line[0][5:]
             img_name = numbering(idx + 1) + "_" + img_name + '.jpg'
     img = cv2.imread(img_path + img_name)
-    topK = process(img, type_model=2, topK=2000)
+    topK = process(img, type_model=3, topK=2000)
     
     resultPath = rPath + q + "_top.txt"
     with open(resultPath, 'w') as f:
