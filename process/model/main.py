@@ -20,7 +20,7 @@ def cos_sim_2d(x, y):
 def ret_answer(collection_path, priority_list_idx, type_model=1):
     priority_list = []
 
-    if (type_model == 1):
+    if (type_model in [1, 3]):
         imgs = sorted(os.listdir(collection_path))
         priority_list = [imgs[i][:-4] for i in priority_list_idx]
         # import pdb; pdb.set_trace()
@@ -47,11 +47,10 @@ def ret_answer(collection_path, priority_list_idx, type_model=1):
 
 def process(img, type_model=1, topK=20):
     collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
-    if (type_model == 1):
+    if (type_model in [1,3]):
         collection_path = "data/oxbuild_images/"
-    else:
+    elif (type_model == 2):
         collection_path = "data/oxbuild_images_crop/"
-
 
     with open(collection_vector_path, 'rb') as handle:
         collection_vec = pickle.load(handle)
@@ -63,7 +62,7 @@ def process(img, type_model=1, topK=20):
     elif (img.shape[2] == None):
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
-    img = cv2.resize(img, (224, 224))
+    img = cv2.resize(img, (224, 224))       
     img = norm_mean_std(img)
     img = torch.from_numpy(img)
     output = model.predict(img).reshape(-1).reshape(1, -1).detach().numpy()

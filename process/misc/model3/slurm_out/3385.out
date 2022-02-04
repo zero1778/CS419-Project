@@ -1,0 +1,37 @@
+/home/pbdang/HCMUS/CS419/CS419-Project/process/misc/model3/train.py:96: UserWarning: You have chosen a specific GPU. This will completely disable data parallelism.
+  warnings.warn('You have chosen a specific GPU. This will completely '
+/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torch/cuda/__init__.py:143: UserWarning: 
+GeForce RTX 3090 with CUDA capability sm_86 is not compatible with the current PyTorch installation.
+The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_70.
+If you want to use the GeForce RTX 3090 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+
+  warnings.warn(incompatible_device_warn.format(device_name, capability, " ".join(arch_list), device_name))
+/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torch/utils/data/dataloader.py:478: UserWarning: This DataLoader will create 4 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torchvision/transforms/transforms.py:287: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  warnings.warn(
+Use GPU: 0 for training
+=> using pre-trained model 'resnet50'
+Using image size 224
+Traceback (most recent call last):
+  File "/home/pbdang/HCMUS/CS419/CS419-Project/process/misc/model3/train.py", line 441, in <module>
+    main()
+  File "/home/pbdang/HCMUS/CS419/CS419-Project/process/misc/model3/train.py", line 114, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/pbdang/HCMUS/CS419/CS419-Project/process/misc/model3/train.py", line 262, in main_worker
+    train(train_loader, model, criterion, optimizer, epoch, args)
+  File "/home/pbdang/HCMUS/CS419/CS419-Project/process/misc/model3/train.py", line 305, in train
+    output = model(images)
+  File "/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torchvision/models/resnet.py", line 249, in forward
+    return self._forward_impl(x)
+  File "/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torchvision/models/resnet.py", line 233, in _forward_impl
+    x = self.bn1(x)
+  File "/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/pbdang/miniconda3/envs/cs419/lib/python3.9/site-packages/torch/nn/modules/batchnorm.py", line 148, in forward
+    self.num_batches_tracked = self.num_batches_tracked + 1  # type: ignore[has-type]
+RuntimeError: CUDA error: no kernel image is available for execution on the device
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
