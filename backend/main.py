@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 from io import BytesIO
 import os
-from process.model.main import process
+from process.model.main import process, initialize
 import cv2
 
 app = FastAPI()
@@ -33,6 +33,8 @@ app.add_middleware(
 
 app.mount('/data',StaticFiles(directory="data"))
 
+initialize(type_model=3)
+
 @app.get("/", tags=["root"])
 async def read_root() -> dict:
     return {"message": "Welcome to Image Retrieval Engine."}
@@ -56,7 +58,9 @@ async def search_image(
     data = cv2.cvtColor(data, cv2.COLOR_RGB2BGR)
     if not(x1==0 and x2==0 and y1==0 and y2==0):
         data = data[y1:y2+1, x1:x2+1, :]
-    topK = process(data, type_model=2)
+    topK = process(data)
+    # Chỉ thêm jpg vào để frontend trả về thôi
+    topK = [x + ".jpg" for x in topK]
 
     # return "image " + str(data.shape) \
     #         + ", coor: (" + str(x1) + ", " + str(y1) \
