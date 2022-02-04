@@ -3,6 +3,6 @@
 python process/misc/model3/train.py data/oxbuild_images_full \
                                     -a 'resnet50' \
                                     --pretrained \
-                                    --gpu 0 --batch-size 32 \
+                                    --gpu 0 --batch-size 64 \
                                     --weight process/misc/model3/weight/resnet50
 
