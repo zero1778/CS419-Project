@@ -2,6 +2,7 @@ from copyreg import pickle
 from distutils.log import error
 from xml.etree.ElementInclude import include
 from torchvision import models
+from efficientnet_pytorch import EfficientNet
 import torch
 import cv2
 import os
@@ -13,6 +14,8 @@ class Model():
             self.model = Model1()
         elif type == 2:
             self.model = Model2()
+        elif type == 3:
+            self.model = Model3()
         elif type == 4:
             self.model = Model4(params.get('sift_descs'))
         
@@ -36,6 +39,19 @@ class Model2():
     def predict(self, img):
         return self.feature_extractor(img)
 
+class Model3():
+    def __init__(self):
+        self.model = EfficientNet.from_name('efficientnet-b0')
+        self.model.eval()
+        checkpoint = torch.load("process/misc/model3/weight/efficientb0/model_best.pth.tar", map_location=torch.device('cpu') )
+        self.model.load_state_dict(checkpoint['state_dict'])
+
+
+    def predict(self, img):
+        tmp = self.model(img)
+        # import pdb; pdb.set_trace()
+        return tmp
+    
 class Model4(): # SIFT + kNN matcher
     def __init__(self, sift_descs):
         self.sift = cv2.SIFT_create()
@@ -67,7 +83,8 @@ class Model4(): # SIFT + kNN matcher
                     score = 99999999999
                 results.append((id, score))
         return [x[0] for x in sorted(results, key = lambda x:x[1])]
-    
+
+# Deprecated, not used yet.
 class Model5(): # SIFT + kNN but since the sift is large, we will not load all into RAM
     def __init__(self, path_prefix):
         self.sift = cv2.SIFT_create()
