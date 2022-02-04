@@ -1,7 +1,8 @@
 import os, cv2
-from process.model.main import process
+from process.model.main import process, initialize
 import pandas as pd
 from tqdm import tqdm
+import pdb
 
 def numbering(x):
     if x < 10:
@@ -22,6 +23,8 @@ queries = [q[:-end] for q in files if q.endswith("query.txt")]
 if os.path.isfile(rPath + "AP.txt"):
     os.remove(rPath + "AP.txt")
 
+initialize(type_model = 3)
+
 for idx, q in tqdm(enumerate(queries)):
     gtq = path + q 
     with open(gtq + "_query.txt", 'r') as f:
@@ -30,8 +33,9 @@ for idx, q in tqdm(enumerate(queries)):
             line = line.split(' ')
             img_name = line[0][5:]
             img_name = numbering(idx + 1) + "_" + img_name + '.jpg'
+    # pdb.set_trace()
     img = cv2.imread(img_path + img_name)
-    topK = process(img, type_model=3, topK=2000)
+    topK = process(img, topK=2000)
     
     resultPath = rPath + q + "_top.txt"
     with open(resultPath, 'w') as f:
