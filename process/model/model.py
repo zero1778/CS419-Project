@@ -13,8 +13,8 @@ class Model():
             self.model = Model1()
         elif type == 2:
             self.model = Model2()
-        elif type == 3:
-            self.model = Model3(params.get('sift_descs'))
+        elif type == 4:
+            self.model = Model4(params.get('sift_descs'))
         
     def predict(self, img):
         return self.model.predict(img)
@@ -36,7 +36,7 @@ class Model2():
     def predict(self, img):
         return self.feature_extractor(img)
 
-class Model3(): # SIFT + kNN matcher
+class Model4(): # SIFT + kNN matcher
     def __init__(self, sift_descs):
         self.sift = cv2.SIFT_create()
         self.sift_descs = sift_descs
