@@ -73,7 +73,7 @@ class Model4(): # SIFT + kNN matcher
                 score = 99999999999
             else:
                 matches = self.matcher.match(desc, train_desc)
-                matches = sorted(matches, key=lambda x : x.distance)[:10]
+                matches = sorted(matches, key=lambda x : x.distance)[:20]
                 score = 0
                 for match in matches:
                     score += match.distance

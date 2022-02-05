@@ -54,7 +54,7 @@ def initialize (type_model=1):
     global model, collection_path, collection_vec, type_model_
     type_model_ = type_model
     collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
-    if (type_model == 1 or type_model == 3):
+    if (type_model == 1 or type_model == 3 or type_model == 4):
         collection_path = "data/oxbuild_images/"
     elif (type_model == 2):
         collection_path = "data/oxbuild_images_crop/"
