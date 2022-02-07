@@ -7,8 +7,8 @@ import "cropperjs/dist/cropper.css";
 const DragAndDrop = props => {
 
     const { data, dispatch } = props;
-    let myScreenW = window.screen.width
-    let myScreenH = myScreenW*3/4
+    let myScreenW = 0.7*window.screen.width
+    let myScreenH = myScreenW*0.6
     
 
     const handleDragEnter = e => {
