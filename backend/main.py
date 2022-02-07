@@ -33,7 +33,7 @@ app.add_middleware(
 
 app.mount('/data',StaticFiles(directory="data"))
 
-initialize(type_model=3)
+initialize(type_model=1)
 
 @app.get("/", tags=["root"])
 async def read_root() -> dict:
