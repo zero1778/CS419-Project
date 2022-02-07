@@ -18,6 +18,8 @@ class Model():
             self.model = Model3()
         elif type == 4:
             self.model = Model4(params.get('sift_descs'))
+        elif type == 5:
+            self.model = Model5(params.get('orb_descs'))
         
     def predict(self, img):
         return self.model.predict(img)
@@ -84,26 +86,30 @@ class Model4(): # SIFT + kNN matcher
                 results.append((id, score))
         return [x[0] for x in sorted(results, key = lambda x:x[1])]
 
-# Deprecated, not used yet.
-class Model5(): # SIFT + kNN but since the sift is large, we will not load all into RAM
-    def __init__(self, path_prefix):
-        self.sift = cv2.SIFT_create()
-        self.matcher = cv2.BFMatcher(crossCheck = True)
+class Model5(): 
+    # ORB + kNN, ORB features is much more lightweight but only **partial** scale invariant.
+    def __init__(self, orb_descs):
+        self.orb = cv2.ORB_create()
+        self.orb_descs = orb_descs
+        self.matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck = True)
 
     def predict (self, img):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        kp, desc = self.sift.detectAndCompute(gray, None)
+        kp, desc = self.orb.detectAndCompute(gray, None)
         results = []
 
-        for id, train_desc in tqdm(enumerate(self.sift_descs)):
-            matches = self.matcher.match(desc, train_desc)
-            matches = sorted(matches, key=lambda x : x.distance)[:20]
-            score = 0
-            for match in matches:
-                score += match.distance
-            if (len(matches) > 0): 
-                score /= len(matches)
+        for id, train_desc in tqdm(enumerate(self.orb_descs)):
+            if train_desc.shape[0] == 0:
+                score = 99999999999
             else:
-                score = 999999999999
-            results.append((id, score))
+                matches = self.matcher.match(desc, train_desc)
+                matches = sorted(matches, key=lambda x : x.distance)
+                score = 0
+                for match in matches:
+                    score += match.distance
+                if (len(matches) > 0): 
+                    score /= len(matches)
+                else:
+                    score = 999999999999
+                results.append((id, score))
         return [x[0] for x in sorted(results, key = lambda x:x[1])]

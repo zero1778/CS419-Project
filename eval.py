@@ -23,7 +23,7 @@ queries = [q[:-end] for q in files if q.endswith("query.txt")]
 if os.path.isfile(rPath + "AP.txt"):
     os.remove(rPath + "AP.txt")
 
-initialize(type_model = 3)
+initialize(type_model = 5)
 
 for idx, q in tqdm(enumerate(queries)):
     gtq = path + q 

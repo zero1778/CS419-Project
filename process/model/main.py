@@ -20,7 +20,7 @@ def cos_sim_2d(x, y):
 def ret_answer(collection_path, priority_list_idx, type_model=1):
     priority_list = []
 
-    if (type_model == 1 or type_model==3 or type_model == 4):
+    if (type_model == 1 or type_model==3 or type_model == 4 or type_model == 5):
         imgs = sorted(os.listdir(collection_path))
         priority_list = [imgs[i][:-4] for i in priority_list_idx]
         # import pdb; pdb.set_trace()
@@ -54,7 +54,7 @@ def initialize (type_model=1):
     global model, collection_path, collection_vec, type_model_
     type_model_ = type_model
     collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
-    if (type_model == 1 or type_model == 3 or type_model == 4):
+    if (type_model == 1 or type_model == 3 or type_model == 4 or type_model == 5):
         collection_path = "data/oxbuild_images/"
     elif (type_model == 2):
         collection_path = "data/oxbuild_images_crop/"
@@ -63,11 +63,14 @@ def initialize (type_model=1):
         with open(collection_vector_path, 'rb') as handle:
             collection_vec = pickle.load(handle)
         model = Model(type_model)
-    else:
-        collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
+    elif type_model == 4:
         with open(collection_vector_path, 'rb') as f:
             sift_descs = pickle.load(f)
         model = Model(type_model, sift_descs=sift_descs)
+    elif type_model == 5:
+        with open(collection_vector_path, 'rb') as f:
+            orb_descs = pickle.load(f)
+        model = Model(type_model, orb_descs=orb_descs)
 
 def process(img, topK=20):
     global type_model_, model, collection_vec, collection_path
@@ -91,7 +94,7 @@ def process(img, topK=20):
         cosine_similarity = cos_sim_2d(output, collection_vec).reshape(-1)
         priority_list_idx = cosine_similarity.argsort()[-topK:][::-1]
         # import pdb; pdb.set_trace()
-    elif type_model == 4:
+    elif type_model == 4 or type_model == 5:
         priority_list_idx = model.predict(img)[:topK]
     priority_list = ret_answer(collection_path, priority_list_idx, type_model)
     return priority_list
