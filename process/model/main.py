@@ -66,7 +66,7 @@ def initialize (type_model=1):
     elif type_model == 4:
         with open(collection_vector_path, 'rb') as f:
             sift_descs = pickle.load(f)
-        model = Model(type_model, sift_descs=sift_descs)
+        model = Model(type_model, sift_descs=sift_descs, matcher_type='bf')
     elif type_model == 5:
         with open(collection_vector_path, 'rb') as f:
             orb_descs = pickle.load(f)

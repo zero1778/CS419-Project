@@ -16,6 +16,7 @@ cmd = "./evaluation/compute_ap "
 path = "./data/gt_files_170407/"
 img_path = "./data/oxbuild_images_crop/"
 rPath = "./evaluation/result/"
+os.makedirs(rPath, exist_ok=True)
 files = sorted(os.listdir(path))
 end = len("_query.txt")
 queries = [q[:-end] for q in files if q.endswith("query.txt")]
@@ -23,7 +24,7 @@ queries = [q[:-end] for q in files if q.endswith("query.txt")]
 if os.path.isfile(rPath + "AP.txt"):
     os.remove(rPath + "AP.txt")
 
-initialize(type_model = 5)
+initialize(type_model = 4)
 
 for idx, q in tqdm(enumerate(queries)):
     gtq = path + q 

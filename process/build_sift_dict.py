@@ -15,7 +15,7 @@ def main():
     cur_chunk_id = 0
 
     def dump_to_file (result, chunk_id):
-        path = os.path.join(collection_vector_path,'model6_vec_' + str(chunk_id) + '.pickle')
+        path = os.path.join(collection_vector_path,'model4_vec' + '.pickle')
         # print('Partial save',chunk_id,path)
         with open(path, 'wb') as handle:
             pickle.dump(result, handle, protocol=pickle.HIGHEST_PROTOCOL)
