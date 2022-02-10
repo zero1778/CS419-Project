@@ -59,11 +59,13 @@ async def search_image(
     y2: int = Body(0)
     ):
     print("hello ", x1, x2, y1, y2)
-    data = load_image_into_numpy_array(await image.read())
+    # data = load_image_into_numpy_array(await image.read())
     # Convert to cv2 bgr format
-    data = cv2.cvtColor(data, cv2.COLOR_RGB2BGR)
+    # data = cv2.cvtColor(data, cv2.COLOR_RGB2BGR)
+    data = Image.open(BytesIO(await image.read())).convert('RGB')
     if not(x1==0 and x2==0 and y1==0 and y2==0):
-        data = data[y1:y2+1, x1:x2+1, :]
+        # data = data[y1:y2+1, x1:x2+1, :]
+        data = data.crop((x1,y1,x2,y2))
     topK = process(data)
     # Chỉ thêm jpg vào để frontend trả về thôi
     topK = [x + ".jpg" for x in topK]

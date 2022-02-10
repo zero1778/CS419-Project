@@ -6,7 +6,7 @@ from process.model.model import Model
 from process.model.utils import norm_mean_std
 # from model import Model
 import torch, pickle
-import pickle5 as pickle
+# import pickle5 as pickle
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances, cosine_distances
 
@@ -65,6 +65,7 @@ def initialize (type_model=1):
     global model, collection_path, collection_vec, type_model_
     type_model_ = type_model
     collection_path = "data/oxbuild_images/"
+    collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
     if (type_model == 1):
         collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
     elif (type_model == 3):
@@ -78,7 +79,6 @@ def initialize (type_model=1):
     elif (type_model == 8):
         collection_vector_path = "process/collection_vector/model_resnet50_noval_vec.pickle"
         collection_vector_path1 = "process/collection_vector/model_b0_noval_vec.pickle"
-
 
     if (type_model in [1,2,3,6,7]):
         with open(collection_vector_path, 'rb') as handle:
@@ -99,6 +99,7 @@ def initialize (type_model=1):
             orb_descs = pickle.load(f)
         model = Model(type_model, orb_descs=orb_descs)
 
+# img of type PIL.Image
 def  process(img, eval_method = 1, topK=20):
     """
         img: numpy array
@@ -121,6 +122,8 @@ def  process(img, eval_method = 1, topK=20):
         priority_list_idx = dist_mat.argsort()[:topK]
         
     elif type_model in [4, 5]:
+        img = np.array(img)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         priority_list_idx = model.predict(img)[:topK]
     elif type_model == 8:
         alpha = 0.5

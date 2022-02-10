@@ -151,30 +151,6 @@ class Model5():
                 results.append((id, score))
         return [x[0] for x in sorted(results, key = lambda x:x[1])]
 
-# Deprecated, not used yet.
-class Model5(): # SIFT + kNN but since the sift is large, we will not load all into RAM
-    def __init__(self, path_prefix):
-        self.sift = cv2.SIFT_create()
-        self.matcher = cv2.BFMatcher(crossCheck = True)
-
-    def predict (self, img):
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        kp, desc = self.sift.detectAndCompute(gray, None)
-        results = []
-
-        for id, train_desc in tqdm(enumerate(self.sift_descs)):
-            matches = self.matcher.match(desc, train_desc)
-            matches = sorted(matches, key=lambda x : x.distance)[:20]
-            score = 0
-            for match in matches:
-                score += match.distance
-            if (len(matches) > 0): 
-                score /= len(matches)
-            else:
-                score = 999999999999
-            results.append((id, score))
-        return [x[0] for x in sorted(results, key = lambda x:x[1])]
-
 class Model6():
     def __init__(self):
         self.model = models.__dict__['resnet50']()
