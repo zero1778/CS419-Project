@@ -1,5 +1,8 @@
 # CS419-Project
 
+## Report
+Go [here](https://github.com/zero1778/CS419-Project/blob/main/report.pdf) to read the report.
+
 ## Prerequisites
 
 To host the server locally, please install the requirements:
