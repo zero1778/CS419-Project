@@ -123,6 +123,7 @@ def  process(img, eval_method = 1, topK=20):
     elif type_model in [4, 5]:
         priority_list_idx = model.predict(img)[:topK]
     elif type_model == 8:
+        alpha = 0.5
         img = norm_mean_std(img)
         output1 = model.predict(img, num = 2).reshape(-1).reshape(1, -1).detach().numpy()
         output2 = model.predict(img, num = 3).reshape(-1).reshape(1, -1).detach().numpy()
@@ -130,7 +131,8 @@ def  process(img, eval_method = 1, topK=20):
         dist = dist_func(eval_method)
         dist_mat1 = dist(output1, collection_vec[0]).reshape(-1)
         dist_mat2 = dist(output2, collection_vec[1]).reshape(-1)
-        dist_mat = (dist_mat1 + dist_mat2) / 2
+        dist_mat = dist_mat1*alpha + dist_mat2*(1 - alpha)
+        
         priority_list_idx = dist_mat.argsort()[:topK]
     priority_list = ret_answer(collection_path, priority_list_idx, type_model)
     return priority_list
