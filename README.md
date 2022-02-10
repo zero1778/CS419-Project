@@ -1,7 +1,8 @@
 # CS419-Project
 
-## Report
+## Report and Demo
 Go [here](https://github.com/zero1778/CS419-Project/blob/main/report.pdf) to read the report.
+You can watch our [product demo here](https://drive.google.com/file/d/1sy35ORvvTDCtHmUJDw3tL1VcoOxD0PSs/view?usp=sharing).
 
 ## Prerequisites
 
