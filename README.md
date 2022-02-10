@@ -32,6 +32,7 @@ If you use model 6, 7, or 8 (which is the default model), please go [here](https
 + Download the file `efficientb0_right.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
 + Download the file `resnet18_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
 + Download the file `resnet50_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
++ Download the file `model_b0_noval_rec.pickle`, copy them to `...\CS419-Project\process\collection_vector`.
 
 After installing all the dependencies, open the terminal and change the directory to our submitted folder "...\CS419-Project" and run:
 ```cmd
