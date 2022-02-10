@@ -49,4 +49,4 @@ If the above link doesn't work, please be patient and do the following to run th
 
 ## Advanced: change the retrieval model in the back-end server
 
-Change the row `model=` in file `config.ini`. The model value, which is an integer, is commented in the `config.ini` file. If you are hosting the back-end server during the change using above command, it is supposed to be automatically restarted.
+Change the row `model=` in file `config.ini`. The model value, which is an integer, is commented in the `config.ini` file. If you are hosting the back-end server during the change using the above command, it is supposed to be automatically restarted.
