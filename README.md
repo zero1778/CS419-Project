@@ -56,7 +56,7 @@ If the above link doesn't work, please be patient and do the following to run th
 + run the command `npm install` and *patiently* waits for the command to complete.
 + run the command `npm start` and wait for `localhost:3000` to open in your browser.
 
-**NOTE: ** There are some unknown errors when using the front-end with Firefox Browser. Please use Microsoft Edge, Chromium, or Google Chrome as these are the browsers we tested on. Furthermore, if your browser disables `CORS`, please go to the settings and enable it.
+**NOTE:** There are some unknown errors when using the front-end with Firefox Browser. Please use Microsoft Edge, Chromium, or Google Chrome as these are the browsers we tested on. Furthermore, if your browser disables `CORS`, please go to the settings and enable it.
 
 **NOTE 2: Please don't press `Search` button multiple times impatiently, instead, please wait patiently for response from back-end server. Please.**
 
