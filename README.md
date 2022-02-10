@@ -28,6 +28,11 @@ pip install -r requirements.txt
 
 If you use model 4 (sift + kNN), please download the vector file [here](https://drive.google.com/file/d/1nliTr71AyFzF97-WMNIm-aGQy-7PlA1A/view?usp=sharing) then place `model4_vec.pickle` to `process/collection_vector`.
 
+If you use model 6, 7, or 8 (which is the default model), please go [here](https://drive.google.com/drive/folders/1ih3FqVe7qBcq0diyYZyXu96KHmslTMyN) and:
++ Download the file `efficientb0_right.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
++ Download the file `resnet18_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
++ Download the file `resnet50_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
+
 After installing all the dependencies, open the terminal and change the directory to our submitted folder "...\CS419-Project" and run:
 ```cmd
 uvicorn --host 127.0.0.1 --port 8000 backend.main:app --reload --reload-include config.ini
