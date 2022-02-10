@@ -56,12 +56,18 @@ compute_ap(const set<string>& pos, const set<string>& amb, const vector<string>&
 int
 main(int argc, char** argv)
 {
-  if (argc != 3) {
-    cout << "Usage: ./compute_ap [GROUNDTRUTH QUERY] [RANKED LIST]\n";
+  if (argc != 3  && argc != 4) {
+    cout << "Usage: ./compute_ap [GROUNDTRUTH QUERY] [RANKED LIST] optional[SAVED AP PATH]\n";
     return -1;
   }
 
   string gtq = argv[1];
+  string savedPath = "./evaluation/result/";
+  if(argc == 4){
+    savedPath = argv[3];
+  }
+  
+  savedPath = savedPath + "AP.txt";
 
   vector<string> ranked_list = load_list(argv[2]);
   set<string> good_set = vector_to_set( load_list(gtq + "_good.txt") );
@@ -76,7 +82,7 @@ main(int argc, char** argv)
   
   // cout << ap << "\n";
   ofstream fout;
-  fout.open("./evaluation/result/AP.txt", fstream::app);
+  fout.open(savedPath, fstream::app);
   fout << gtq << " " << ap << endl;
   fout.close();
 
