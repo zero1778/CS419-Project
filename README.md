@@ -6,7 +6,7 @@ To host the server locally, please install the requirements:
 
 - Python 3 environment
 
-Please install the requirements manually
+Please install the requirements manually...
 ```cmd
 pip install fastapi
 pip install "uvicorn[standard]"
@@ -18,7 +18,7 @@ pip install pandas
 pip install efficientnet_pytorch
 pip install numpy
 ```
-or you may install from requirements.txt
+...or you may install from requirements.txt
 
 ```cmd
 pip install -r requirements.txt
