@@ -6,3 +6,6 @@ npm
 pandas
 efficientnet_pytorch
 sklearn
+fastapi
+numpy
+configparser

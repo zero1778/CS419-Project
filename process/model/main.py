@@ -20,7 +20,7 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 def ret_answer(collection_path, priority_list_idx, type_model=1):
     priority_list = []
 
-    if (type_model in [1, 3, 4, 6, 7, 8]):
+    if (type_model in [1, 3, 4, 5, 6, 7, 8]):
         imgs = sorted(os.listdir(collection_path))
         priority_list = [imgs[i][:-4] for i in priority_list_idx]
         # import pdb; pdb.set_trace()
@@ -76,7 +76,6 @@ def initialize (type_model=1):
     elif (type_model == 7):
         collection_vector_path = "process/collection_vector/model_b0_noval_vec.pickle"
     elif (type_model == 8):
-        collection_path = "data/oxbuild_images/"
         collection_vector_path = "process/collection_vector/model_resnet50_noval_vec.pickle"
         collection_vector_path1 = "process/collection_vector/model_b0_noval_vec.pickle"
 
@@ -91,11 +90,14 @@ def initialize (type_model=1):
         with open(collection_vector_path1, 'rb') as handle:
             collection_vec.append(pickle.load(handle))
         model = Model(type_model)
-    else:
-        collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
+    elif type_model == 4:
         with open(collection_vector_path, 'rb') as f:
             sift_descs = pickle.load(f)
-        model = Model(type_model, sift_descs=sift_descs)
+        model = Model(type_model, sift_descs=sift_descs, matcher_type='bf')
+    elif type_model == 5:
+        with open(collection_vector_path, 'rb') as f:
+            orb_descs = pickle.load(f)
+        model = Model(type_model, orb_descs=orb_descs)
 
 def  process(img, eval_method = 1, topK=20):
     """
@@ -116,10 +118,9 @@ def  process(img, eval_method = 1, topK=20):
         
         dist = dist_func(eval_method)
         dist_mat = dist(output, collection_vec[0]).reshape(-1)
-        # priority_list_idx = dist_mat.argsort()[-topK:][::-1]
         priority_list_idx = dist_mat.argsort()[:topK]
         
-    elif type_model == 4:
+    elif type_model in [4, 5]:
         priority_list_idx = model.predict(img)[:topK]
     elif type_model == 8:
         img = norm_mean_std(img)

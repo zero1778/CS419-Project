@@ -3,20 +3,22 @@ import Gallery from "react-photo-gallery";
 import { Navbar, Nav, Container, NavLink, Modal } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import images from './image_urls.json'
 
 const GalleryResult  = props => {
   const { displayList } = props;
 
   const formatPhoto = (photoList) => {
     var temp = []
-
+    let text = localStorage.g
     for (var i=0; i < photoList.length; ++i) {
       temp.push({
-        src: "http://localhost:8000/data/oxbuild_images/"+photoList[i],
+        src: images[photoList[i]],
         width: 1,
         height: 1,
         alt: photoList[i]
       })
+      console.log("image ", i, photoList[i], images[photoList[i]])
     }
 
     return temp;

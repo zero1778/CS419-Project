@@ -10,6 +10,7 @@ from io import BytesIO
 import os
 from process.model.main import process, initialize
 import cv2
+import configparser
 
 app = FastAPI()
 
@@ -22,6 +23,10 @@ origins = [
     "*"
 ]
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+model=config['config']['model']
+model=int(model)
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,7 +38,8 @@ app.add_middleware(
 
 app.mount('/data',StaticFiles(directory="data"))
 
-initialize(type_model=3)
+print('Initializing model',model)
+initialize(type_model=model)
 
 @app.get("/", tags=["root"])
 async def read_root() -> dict:

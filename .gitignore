@@ -30,3 +30,7 @@ yarn-error.log*
 *.tar
 model_b0_noval_vec.pickle
 
+process/collection_vector/model4_vec.pickle
+process/model/__pycache__/model.cpython-39.pyc
+process/model/__pycache__/main.cpython-39.pyc
+process/model/__pycache__/model.cpython-39.pyc

@@ -18,6 +18,7 @@ cmd = "./evaluation/compute_ap "
 path = "./data/gt_files_170407/"
 img_path = "./data/oxbuild_images_crop/"
 rPath = "./evaluation/result/"
+os.makedirs(rPath, exist_ok=True)
 files = sorted(os.listdir(path))
 end = len("_query.txt")
 queries = [q[:-end] for q in files if q.endswith("query.txt")]
@@ -35,11 +36,8 @@ for idx, q in tqdm(enumerate(queries)):
             line = line.split(' ')
             img_name = line[0][5:]
             img_name = numbering(idx + 1) + "_" + img_name + '.jpg'
-    # pdb.set_trace()
-    # img = cv2.imread(img_path + img_name)
+
     img = Image.open(img_path + img_name).convert('RGB')
-    # img = norm_mean_std(img, transforms)
-    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     topK = process(img, eval_method=2, topK=200)
     
     resultPath = rPath + q + "_top.txt"
