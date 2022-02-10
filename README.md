@@ -29,7 +29,7 @@ pip install -r requirements.txt
 git clone https://github.com/zero1778/CS419-Project
 ```
 
-## Host the back-end server locally
+## Prepare the vectors and weights
 
 If you use model 4 (sift + kNN), please download the vector file [here](https://drive.google.com/file/d/1nliTr71AyFzF97-WMNIm-aGQy-7PlA1A/view?usp=sharing) then place `model4_vec.pickle` to `process/collection_vector`.
 
@@ -38,6 +38,8 @@ If you use model 6, 7, or 8 (which is the default model), please go [here](https
 + Download the file `resnet18_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
 + Download the file `resnet50_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
 + Download the file `model_b0_noval_rec.pickle`, copy them to `...\CS419-Project\process\collection_vector`.
+
+## Host the back-end server locally
 
 After installing all the dependencies, open the terminal and change the directory to our submitted folder "...\CS419-Project" and run:
 ```cmd
@@ -63,3 +65,15 @@ If the above link doesn't work, please be patient and do the following to run th
 ## Advanced: change the retrieval model in the back-end server
 
 Change the row `model=` in file `config.ini`. The model value, which is an integer, is commented in the `config.ini` file. If you are hosting the back-end server during the change using the above command, it is supposed to be automatically restarted.
+
+## Advanced: Evaluation on Oxford5k 55 queries
+
+Please do the following steps:
+
++ Download the [`Oxford5k` dataset](https://www.robots.ox.ac.uk/~vgg/data/oxbuildings/oxbuild_images.tgz) and extract 5063 images to `data\oxbuild_images\` (please make directory if it's not existed)
++ Change the current working directory to `...\CS419-Project` and run `python process/misc/model2/extract_img.py`.
++ Download the [ground truth files](https://www.robots.ox.ac.uk/~vgg/data/oxbuildings/gt_files_170407.tgz) and extract 220 txt files to `data\gt_files_170407\` (please make directory if it's not existed)
++ Prepare the vectors and weights (see section **Prepare the vectors and weights**).
++ Go to `eval.py` and change the line `initialize(type_model = 6)`, change the number 6 to the model number you want (see `config.ini` for details).
++ Run `python eval.py`
++ Wait for the code to complete and go to `evaluation\result` for the evaluation result.
