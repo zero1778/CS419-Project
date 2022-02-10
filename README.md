@@ -24,6 +24,11 @@ or you may install from requirements.txt
 pip install -r requirements.txt
 ```
 
+## Pull the git (if any missing file in local version)
+```
+git clone https://github.com/zero1778/CS419-Project
+```
+
 ## Host the back-end server locally
 
 If you use model 4 (sift + kNN), please download the vector file [here](https://drive.google.com/file/d/1nliTr71AyFzF97-WMNIm-aGQy-7PlA1A/view?usp=sharing) then place `model4_vec.pickle` to `process/collection_vector`.
