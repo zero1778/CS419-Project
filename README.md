@@ -29,15 +29,27 @@ pip install -r requirements.txt
 git clone https://github.com/zero1778/CS419-Project
 ```
 
+## What model to use?
+
+If you admire the Computer Vision technique, use model 5 (ORB + kNN), it does not need additional downloading.
+
+For our best precision model, use model 9. Model 8 is slightly less precision, but faster execution.
+
+
 ## Prepare the vectors and weights
 
 If you use model 4 (sift + kNN), please download the vector file [here](https://drive.google.com/file/d/1nliTr71AyFzF97-WMNIm-aGQy-7PlA1A/view?usp=sharing) then place `model4_vec.pickle` to `process/collection_vector`.
 
-If you use model 6, 7, or 8 (which is the default model), please go [here](https://drive.google.com/drive/folders/1ih3FqVe7qBcq0diyYZyXu96KHmslTMyN) and:
+If you use model 6, 7, or 8 **which is the default model**, please go [here](https://drive.google.com/drive/folders/1ih3FqVe7qBcq0diyYZyXu96KHmslTMyN) and:
 + Download the file `efficientb0_right.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
-+ Download the file `resnet18_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
 + Download the file `resnet50_noval.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
 + Download the file `model_b0_noval_rec.pickle`, copy them to `...\CS419-Project\process\collection_vector`.
+
+If you use model 9 (Attention model), please:
++ Download the file `model_att_noval_vec.pickle`, copy them to `...\CS419-Project\process\collection_vector`.
++ Download the file `attention.zip`, copy them to `...\CS419-Project\process\misc\model3\weight` and extract it.
+
+For other models, the weights and vectors are integrated when you clone the project.
 
 ## Host the back-end server locally
 
