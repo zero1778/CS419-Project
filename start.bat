@@ -1,1 +1,1 @@
-uvicorn backend.main:app --reload
+uvicorn backend.main:app --reload --reload-include config.ini
