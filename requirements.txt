@@ -7,5 +7,6 @@ pandas
 efficientnet_pytorch
 sklearn
 fastapi
+uvicorn[standard]
 numpy
 configparser
