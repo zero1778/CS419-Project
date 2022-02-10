@@ -5,3 +5,4 @@ tqdm
 npm
 pandas
 efficientnet_pytorch
+sklearn

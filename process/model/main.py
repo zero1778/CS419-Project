@@ -8,19 +8,19 @@ from process.model.utils import norm_mean_std
 import torch, pickle
 import pickle5 as pickle
 import numpy as np
+from sklearn.metrics.pairwise import euclidean_distances, cosine_distances
+
+def dotprod_dist(x, y):
+    d = x.dot(y.T)
+    d = (d - d.min(1)[:, np.newaxis]) / (d.max(1) - d.min(1))[:, np.newaxis]
+    return 1 - d
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-
-
-def cos_sim_2d(x, y):
-    norm_x = x / np.linalg.norm(x, axis=1, keepdims=True)
-    norm_y = y / np.linalg.norm(y, axis=1, keepdims=True)
-    return np.matmul(norm_x, norm_y.T)
 
 def ret_answer(collection_path, priority_list_idx, type_model=1):
     priority_list = []
 
-    if (type_model in [1, 3]):
+    if (type_model in [1, 3, 4, 6, 7, 8]):
         imgs = sorted(os.listdir(collection_path))
         priority_list = [imgs[i][:-4] for i in priority_list_idx]
         # import pdb; pdb.set_trace()
@@ -45,31 +45,92 @@ def ret_answer(collection_path, priority_list_idx, type_model=1):
         priority_list = list(dict.fromkeys(priority_list))
     return priority_list
 
-def process(img, type_model=1, topK=20):
-    collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
-    if (type_model in [1,3]):
-        collection_path = "data/oxbuild_images/"
+model = None
+collection_vec = []
+collection_path = 0
+type_model_ = 1
+
+def dist_func(mode):
+    factory = {
+        1: euclidean_distances,
+        2: cosine_distances,
+        3: dotprod_dist,
+    }
+    if mode in factory:
+        return factory[mode]
+    else:
+        raise Exception('Invalid mode.')
+
+def initialize (type_model=1):
+    global model, collection_path, collection_vec, type_model_
+    type_model_ = type_model
+    collection_path = "data/oxbuild_images/"
+    if (type_model == 1):
+        collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
+    elif (type_model == 3):
+        collection_vector_path = "process/collection_vector/model_resnet18_noval_vec.pickle"
     elif (type_model == 2):
         collection_path = "data/oxbuild_images_crop/"
+    elif (type_model == 6):
+        collection_vector_path = "process/collection_vector/model_resnet50_noval_vec.pickle"
+    elif (type_model == 7):
+        collection_vector_path = "process/collection_vector/model_b0_noval_vec.pickle"
+    elif (type_model == 8):
+        collection_path = "data/oxbuild_images/"
+        collection_vector_path = "process/collection_vector/model_resnet50_noval_vec.pickle"
+        collection_vector_path1 = "process/collection_vector/model_b0_noval_vec.pickle"
 
-    with open(collection_vector_path, 'rb') as handle:
-        collection_vec = pickle.load(handle)
+
+    if (type_model in [1,2,3,6,7]):
+        with open(collection_vector_path, 'rb') as handle:
+            collection_vec.append(pickle.load(handle))
+        model = Model(type_model)
+    elif (type_model == 8):
+        with open(collection_vector_path, 'rb') as handle:
+            collection_vec.append(pickle.load(handle))
+        with open(collection_vector_path1, 'rb') as handle:
+            collection_vec.append(pickle.load(handle))
+        model = Model(type_model)
+    else:
+        collection_vector_path = "process/collection_vector/model" + str(type_model) + "_vec.pickle"
+        with open(collection_vector_path, 'rb') as f:
+            sift_descs = pickle.load(f)
+        model = Model(type_model, sift_descs=sift_descs)
+
+def  process(img, eval_method = 1, topK=20):
+    """
+        img: numpy array
+        eval_method: 1: cosine, 2: euclidean, 3: dot product
+    """
+    global type_model_, model, collection_vec, collection_path
+    type_model = type_model_
+    priority_list = []
+    # if (img.shape[-1] > 3):
+    #     img = img[:, :, :3]
+    # elif (img.shape[2] == None):
+    #     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+
+    if (type_model in [1,2,3,6,7]):
+        img = norm_mean_std(img)
+        output = model.predict(img).reshape(-1).reshape(1, -1).detach().numpy()
         
-    model = Model(type_model)
-
-    if (img.shape[-1] > 3):
-        img = img[:, :, :3]
-    elif (img.shape[2] == None):
-        img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-
-    img = cv2.resize(img, (224, 224))       
-    img = norm_mean_std(img)
-    img = torch.from_numpy(img)
-    output = model.predict(img).reshape(-1).reshape(1, -1).detach().numpy()
-
-    cosine_similarity = cos_sim_2d(output, collection_vec).reshape(-1)
-    priority_list_idx = cosine_similarity.argsort()[-topK:][::-1]
-    # import pdb; pdb.set_trace()
+        dist = dist_func(eval_method)
+        dist_mat = dist(output, collection_vec[0]).reshape(-1)
+        # priority_list_idx = dist_mat.argsort()[-topK:][::-1]
+        priority_list_idx = dist_mat.argsort()[:topK]
+        
+    elif type_model == 4:
+        priority_list_idx = model.predict(img)[:topK]
+    elif type_model == 8:
+        img = norm_mean_std(img)
+        output1 = model.predict(img, num = 2).reshape(-1).reshape(1, -1).detach().numpy()
+        output2 = model.predict(img, num = 3).reshape(-1).reshape(1, -1).detach().numpy()
+        
+        dist = dist_func(eval_method)
+        dist_mat1 = dist(output1, collection_vec[0]).reshape(-1)
+        dist_mat2 = dist(output2, collection_vec[1]).reshape(-1)
+        dist_mat = (dist_mat1 + dist_mat2) / 2
+        priority_list_idx = dist_mat.argsort()[:topK]
     priority_list = ret_answer(collection_path, priority_list_idx, type_model)
     return priority_list
 

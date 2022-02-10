@@ -27,3 +27,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+*.tar
+model_b0_noval_vec.pickle
+
