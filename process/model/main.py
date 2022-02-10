@@ -79,8 +79,10 @@ def initialize (type_model=1):
     elif (type_model == 8):
         collection_vector_path = "process/collection_vector/model_resnet50_noval_vec.pickle"
         collection_vector_path1 = "process/collection_vector/model_b0_noval_vec.pickle"
+    elif (type_model == 9):
+        collection_vector_path = "process/collection_vector/model_att_noval_vec.pickle"
 
-    if (type_model in [1,2,3,6,7]):
+    if (type_model in [1,2,3,6,7,9]):
         with open(collection_vector_path, 'rb') as handle:
             collection_vec.append(pickle.load(handle))
         model = Model(type_model)
@@ -113,7 +115,7 @@ def  process(img, eval_method = 1, topK=20):
     # elif (img.shape[2] == None):
     #     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
-    if (type_model in [1,2,3,6,7]):
+    if (type_model in [1,2,3,6,7,9]):
         img = norm_mean_std(img)
         output = model.predict(img).reshape(-1).reshape(1, -1).detach().numpy()
         
@@ -135,7 +137,7 @@ def  process(img, eval_method = 1, topK=20):
         dist_mat1 = dist(output1, collection_vec[0]).reshape(-1)
         dist_mat2 = dist(output2, collection_vec[1]).reshape(-1)
         dist_mat = dist_mat1*alpha + dist_mat2*(1 - alpha)
-        
+
         priority_list_idx = dist_mat.argsort()[:topK]
     priority_list = ret_answer(collection_path, priority_list_idx, type_model)
     return priority_list

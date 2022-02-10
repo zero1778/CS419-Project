@@ -27,7 +27,10 @@ class Model():
             self.model = Model7()
         elif type == 8:
             self.model1 = Model6()
-            self.model2 = Model7()        
+            self.model2 = Model7()  
+        elif type == 9:
+            self.model = Model9()      
+            
     def predict(self, img, num=1):
         if (num == 2):
             return self.model1.predict(img)
@@ -170,6 +173,17 @@ class Model7():
         self.model = EfficientNet.from_pretrained('efficientnet-b0',num_classes=17)
         self.model.eval()
         checkpoint = torch.load("process/misc/model3/weight/efficientb0_right/model_best.pth.tar", map_location=torch.device('cpu') )
+        self.model.load_state_dict(checkpoint['state_dict'])
+
+    def predict(self, img):
+        return self.model.extract_features(img).reshape(1,-1)
+
+
+class Model9():
+    def __init__(self):
+        self.model = EfficientNet.from_pretrained('efficientnet-b1',num_classes=17)
+        self.model.eval()
+        checkpoint = torch.load("process/misc/model3/weight/attention/model_best.pth.tar", map_location=torch.device('cpu') )
         self.model.load_state_dict(checkpoint['state_dict'])
 
     def predict(self, img):
