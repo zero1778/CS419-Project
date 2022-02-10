@@ -36,7 +36,7 @@ for idx, q in tqdm(enumerate(queries)):
             img_name = numbering(idx + 1) + "_" + img_name + '.jpg'
     # pdb.set_trace()
     img = cv2.imread(img_path + img_name)
-    topK = process(img, topK=2000)
+    topK = process(img, topK=100)
     
     resultPath = rPath + q + "_top.txt"
     with open(resultPath, 'w') as f:
