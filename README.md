@@ -48,4 +48,5 @@ If the above link doesn't work, please be patient and do the following to run th
 **NOTE: ** There are some unknown errors when using the front-end with Firefox Browser. Please use Microsoft Edge, Chromium, or Google Chrome as these are the browsers we tested on. Furthermore, if your browser disables `CORS`, please go to the settings and enable it.
 
 ## Advanced: change the retrieval model in the back-end server
-Change the row `model=` in file `config.ini`. The model value, which is an integer, is commented in the `config.ini` file.
+
+Change the row `model=` in file `config.ini`. The model value, which is an integer, is commented in the `config.ini` file. If you are hosting the back-end server during the change using above command, it is supposed to be automatically restarted.
